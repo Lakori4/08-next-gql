@@ -1,16 +1,18 @@
 "use client"
 
 import { GET_MAIN_PAGE_CHARS } from "@/features/characters/queries"
-import { GetMainPageCharsDocument, GetMainPageCharsQuery, GetMainPageCharsQueryVariables } from "@/gql/graphql"
+import { GetMainPageCharsQuery, GetMainPageCharsQueryVariables } from "@/gql/graphql"
 import { useQuery } from "@apollo/client/react"
 
 
 const Home = () => {
 
-  const { data, loading } = useQuery<GetMainPageCharsQuery, GetMainPageCharsQueryVariables>(GET_MAIN_PAGE_CHARS)
+  const { data, loading } = useQuery<GetMainPageCharsQuery, GetMainPageCharsQueryVariables>(GET_MAIN_PAGE_CHARS, { variables: { filter: { name: "Rick" } } })
 
   return (
-    <h1>{data?.characters?.results[0]?.name}</h1>
+
+    <ul>{data?.characters?.results?.map(c => <li key={c?.id}>{c?.name}</li>)}</ul>
+
   )
 }
 
